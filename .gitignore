@@ -1,3 +1,6 @@
+.idea
+go-mediate
+
 # Binaries for programs and plugins
 *.exe
 *.exe~
