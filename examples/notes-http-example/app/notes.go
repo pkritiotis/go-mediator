@@ -4,12 +4,11 @@ import (
 	"context"
 	"github.com/google/uuid"
 	"github.com/pkritiotis/go-mediate/mediator"
-	"reflect"
 	"time"
 )
 
 func init() {
-	mediator.Register(reflect.TypeOf(GetAllNotesRequest{}), NewGetAllNotesRequestHandler())
+	mediator.Register(NewGetAllNotesRequestHandler())
 }
 
 // GetAllNotesRequest contains the request params

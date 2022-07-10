@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-//GetAll Returns all available crags
+//GetAll Returns all available notes
 func GetAll(w http.ResponseWriter, r *http.Request) {
 	req := app.GetAllNotesRequest{Ctx: r.Context()}
 	crags, err := mediator.Send[app.GetAllNotesRequest, []app.GetAllNotesResult](req)

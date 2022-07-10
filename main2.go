@@ -3,12 +3,11 @@ package main
 import (
 	"fmt"
 	"github.com/pkritiotis/go-mediate/mediator"
-	"reflect"
 )
 
 func main() {
-	//Register the handler that will server `Request` requests
-	mediator.Register(reflect.TypeOf(Request{}), NewSampleHandler())
+	//Register the handler that will server `TRequest` requests
+	mediator.Register(NewSampleHandler())
 	mediator.Send[Request, Result](Request{})
 }
 

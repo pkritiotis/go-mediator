@@ -14,43 +14,51 @@ func init() {
 	registeredHandlers = sync.Map{}
 }
 
-func Register[Request, Result any](rType reflect.Type, handler RequestHandler[Request, Result]) error {
-	_, existed := registeredHandlers.LoadOrStore(rType, handler)
+//Register registers the provided request handler to be used for the corresponding requests
+func Register[TRequest any, TResult any](handler RequestHandler[TRequest, TResult]) error {
+	var req TRequest
+	_, existed := registeredHandlers.LoadOrStore(reflect.TypeOf(req), handler)
 	if existed {
 		return errors.New("the provided type is already registered to a handler")
 	}
 	return nil
 }
 
-func Send[Request, Result any](r Request) (Result, error) {
-	var a Result
-	handler, ok := registeredHandlers.Load(reflect.TypeOf(r))
+//Send processes the provided request and returns the produced result
+func Send[TRequest any, TResult any](r TRequest) (TResult, error) {
+	var req TRequest
+	var zeroRes TResult
+	handler, ok := registeredHandlers.Load(reflect.TypeOf(req))
 	if !ok {
-		return a, errors.New("could not find a handler for this function")
+		return zeroRes, errors.New("could not find zeroRes handler for this function")
 	}
 	switch handler := handler.(type) {
-	case RequestHandler[Request, Result]:
+	case RequestHandler[TRequest, TResult]:
 		return handler.Handle(r)
 	}
-	return a, errors.New("Invalid handler")
+	return zeroRes, errors.New("Invalid handler")
 }
 
-func SendCommand[Request any](rType reflect.Type, r Request) error {
-	handler, ok := registeredHandlers.Load(rType)
+//RequestHandler handles TRequest and returns TResult
+type RequestHandler[TRequest any, TResult any] interface {
+	Handle(request TRequest) (TResult, error)
+}
+
+//SendCommand processes the provided Request
+func SendCommand[TRequest any](r TRequest) error {
+	var req TRequest
+	handler, ok := registeredHandlers.Load(reflect.TypeOf(req))
 	if !ok {
-		return errors.New("could not find a handler for this function")
+		return errors.New("could not find zeroRes handler for this function")
 	}
 	switch handler := handler.(type) {
-	case CommandHandler[Request]:
+	case CommandHandler[TRequest]:
 		return handler.Handle(r)
 	}
 	return errors.New("Invalid handler")
 }
 
-type RequestHandler[Request, Result any] interface {
-	Handle(request Request) (Result, error)
-}
-
-type CommandHandler[Request any] interface {
-	Handle(request Request) error
+//CommandHandler handles TRequest
+type CommandHandler[TRequest any] interface {
+	Handle(request TRequest) error
 }
