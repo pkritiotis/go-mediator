@@ -15,20 +15,12 @@ func init() {
 }
 
 type key[TRequest any, TResult any] struct {
-	reqType reflect.Type
-	resType reflect.Type
 }
 
 // Register registers the provided request handler to be used for the corresponding requests
 func Register[TRequest any, TResult any](handler RequestHandler[TRequest, TResult]) error {
-	var req TRequest
-	var res TResult
-	k := key[TRequest, TResult]{
-		reqType: reflect.TypeOf(req),
-		resType: reflect.TypeOf(res),
-	}
-
-	_, existed := registeredHandlers.LoadOrStore(k, handler)
+	k := key[TRequest, TResult]{}
+	_, existed := registeredHandlers.LoadOrStore(reflect.TypeOf(k), handler)
 	if existed {
 		return errors.New("the provided type is already registered to a handler")
 	}
