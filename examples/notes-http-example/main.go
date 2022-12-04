@@ -4,7 +4,7 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/pkritiotis/go-mediate/examples/notes-http-example/infra"
+	"github.com/pkritiotis/go-mediator/examples/notes-http-example/infra"
 )
 
 func main() {

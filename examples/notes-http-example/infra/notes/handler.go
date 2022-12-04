@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/pkritiotis/go-mediate/examples/notes-http-example/app"
-	"github.com/pkritiotis/go-mediate/mediator"
+	"github.com/pkritiotis/go-mediator/examples/notes-http-example/app"
+	"github.com/pkritiotis/go-mediator/mediator"
 )
 
 // GetAll Returns all available notes

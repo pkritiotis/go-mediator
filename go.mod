@@ -1,4 +1,4 @@
-module github.com/pkritiotis/go-mediate
+module github.com/pkritiotis/go-mediator
 
 go 1.18
 

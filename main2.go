@@ -3,7 +3,7 @@ package main
 import (
 	"fmt"
 
-	"github.com/pkritiotis/go-mediate/mediator"
+	"github.com/pkritiotis/go-mediator/mediator"
 )
 
 func main() {

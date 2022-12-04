@@ -5,7 +5,7 @@ import (
 	"time"
 
 	"github.com/google/uuid"
-	"github.com/pkritiotis/go-mediate/mediator"
+	"github.com/pkritiotis/go-mediator/mediator"
 )
 
 func init() {

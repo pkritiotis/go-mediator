@@ -3,7 +3,7 @@ package infra
 import (
 	"net/http"
 
-	"github.com/pkritiotis/go-mediate/examples/notes-http-example/infra/notes"
+	"github.com/pkritiotis/go-mediator/examples/notes-http-example/infra/notes"
 
 	"github.com/gorilla/mux"
 )
