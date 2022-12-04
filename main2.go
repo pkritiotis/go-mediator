@@ -9,7 +9,7 @@ import (
 func main() {
 	//Register the handler that will server `TRequest` requests
 	mediator.Register(NewSampleHandler())
-	mediator.SendRequest[Request, Result](Request{})
+	mediator.Send[Request, Result](Request{})
 }
 
 type Request struct {

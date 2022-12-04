@@ -12,7 +12,7 @@ import (
 // GetAll Returns all available notes
 func GetAll(w http.ResponseWriter, r *http.Request) {
 	req := app.GetAllNotesRequest{Ctx: r.Context()}
-	crags, err := mediator.SendRequest[app.GetAllNotesRequest, []app.GetAllNotesResult](req)
+	crags, err := mediator.Send[app.GetAllNotesRequest, []app.GetAllNotesResult](req)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		fmt.Fprintf(w, err.Error())
