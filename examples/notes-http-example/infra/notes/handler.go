@@ -19,7 +19,7 @@ func GetAll(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	err = json.NewEncoder(w).Encode(crags)
+	err = json.NewEncoder(w).Encode(notes)
 	if err != nil {
 		return
 	}
