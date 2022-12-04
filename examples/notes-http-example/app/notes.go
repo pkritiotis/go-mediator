@@ -2,13 +2,17 @@ package app
 
 import (
 	"context"
+	"time"
+
 	"github.com/google/uuid"
 	"github.com/pkritiotis/go-mediate/mediator"
-	"time"
 )
 
 func init() {
-	mediator.Register(NewGetAllNotesRequestHandler())
+	err := mediator.Register[GetAllNotesRequest, []GetAllNotesResult](getAllNotesRequestHandler{})
+	if err != nil {
+		panic(err)
+	}
 }
 
 // GetAllNotesRequest contains the request params
@@ -24,7 +28,7 @@ type GetAllNotesResult struct {
 	CreatedAt time.Time
 }
 
-//GetAllNotesRequestHandler Contains the dependencies of the Handler
+// GetAllNotesRequestHandler Contains the dependencies of the Handler
 type GetAllNotesRequestHandler interface {
 	Handle() ([]GetAllNotesResult, error)
 }
@@ -32,12 +36,7 @@ type GetAllNotesRequestHandler interface {
 type getAllNotesRequestHandler struct {
 }
 
-//NewGetAllNotesRequestHandler Handler constructor
-func NewGetAllNotesRequestHandler() mediator.RequestHandler[GetAllNotesRequest, []GetAllNotesResult] {
-	return getAllNotesRequestHandler{}
-}
-
-//Handle Handles the query
+// Handle Handles the query
 func (h getAllNotesRequestHandler) Handle(request GetAllNotesRequest) ([]GetAllNotesResult, error) {
 
 	result := []GetAllNotesResult{

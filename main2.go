@@ -2,13 +2,14 @@ package main
 
 import (
 	"fmt"
+
 	"github.com/pkritiotis/go-mediate/mediator"
 )
 
 func main() {
 	//Register the handler that will server `TRequest` requests
 	mediator.Register(NewSampleHandler())
-	mediator.Send[Request, Result](Request{})
+	mediator.SendRequest[Request, Result](Request{})
 }
 
 type Request struct {

@@ -14,21 +14,32 @@ func init() {
 	registeredHandlers = sync.Map{}
 }
 
-//Register registers the provided request handler to be used for the corresponding requests
+type key[TRequest any, TResult any] struct {
+	reqType reflect.Type
+	resType reflect.Type
+}
+
+// Register registers the provided request handler to be used for the corresponding requests
 func Register[TRequest any, TResult any](handler RequestHandler[TRequest, TResult]) error {
 	var req TRequest
-	_, existed := registeredHandlers.LoadOrStore(reflect.TypeOf(req), handler)
+	var res TResult
+	k := key[TRequest, TResult]{
+		reqType: reflect.TypeOf(req),
+		resType: reflect.TypeOf(res),
+	}
+
+	_, existed := registeredHandlers.LoadOrStore(k, handler)
 	if existed {
 		return errors.New("the provided type is already registered to a handler")
 	}
 	return nil
 }
 
-//Send processes the provided request and returns the produced result
-func Send[TRequest any, TResult any](r TRequest) (TResult, error) {
-	var req TRequest
+// SendRequest processes the provided request and returns the produced result
+func SendRequest[TRequest any, TResult any](r TRequest) (TResult, error) {
 	var zeroRes TResult
-	handler, ok := registeredHandlers.Load(reflect.TypeOf(req))
+	var k key[TRequest, TResult]
+	handler, ok := registeredHandlers.Load(reflect.TypeOf(k))
 	if !ok {
 		return zeroRes, errors.New("could not find zeroRes handler for this function")
 	}
@@ -39,12 +50,12 @@ func Send[TRequest any, TResult any](r TRequest) (TResult, error) {
 	return zeroRes, errors.New("Invalid handler")
 }
 
-//RequestHandler handles TRequest and returns TResult
+// RequestHandler handles TRequest and returns TResult
 type RequestHandler[TRequest any, TResult any] interface {
 	Handle(request TRequest) (TResult, error)
 }
 
-//SendCommand processes the provided Request
+// SendCommand processes the provided Request
 func SendCommand[TRequest any](r TRequest) error {
 	var req TRequest
 	handler, ok := registeredHandlers.Load(reflect.TypeOf(req))
@@ -58,7 +69,7 @@ func SendCommand[TRequest any](r TRequest) error {
 	return errors.New("Invalid handler")
 }
 
-//CommandHandler handles TRequest
+// CommandHandler handles TRequest
 type CommandHandler[TRequest any] interface {
 	Handle(request TRequest) error
 }
