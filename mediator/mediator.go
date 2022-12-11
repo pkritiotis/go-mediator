@@ -1,3 +1,4 @@
+// Package mediator implements the generic mediator pattern
 package mediator
 
 import (

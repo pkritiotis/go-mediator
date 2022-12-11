@@ -1,3 +1,4 @@
+// The main package implements a minimal example of the mediator
 package main
 
 import (
