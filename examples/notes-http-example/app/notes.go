@@ -9,7 +9,7 @@ import (
 )
 
 func init() {
-	err := mediator.Register[GetAllNotesRequest, []GetAllNotesResult](getAllNotesRequestHandler{})
+	err := mediator.Register[GetAllNotesRequest, []Note](getAllNotesRequestHandler{})
 	if err != nil {
 		panic(err)
 	}
@@ -20,8 +20,8 @@ type GetAllNotesRequest struct {
 	Ctx context.Context
 }
 
-// GetAllNotesResult is the result of the GetAllNotesRequest Query
-type GetAllNotesResult struct {
+// Note is the result of the GetAllNotesRequest Query
+type Note struct {
 	ID        uuid.UUID
 	Name      string
 	Contents  string
@@ -30,16 +30,16 @@ type GetAllNotesResult struct {
 
 // GetAllNotesRequestHandler Contains the dependencies of the Handler
 type GetAllNotesRequestHandler interface {
-	Handle() ([]GetAllNotesResult, error)
+	Handle() ([]Note, error)
 }
 
 type getAllNotesRequestHandler struct {
 }
 
 // Handle Handles the query
-func (h getAllNotesRequestHandler) Handle(request GetAllNotesRequest) ([]GetAllNotesResult, error) {
+func (h getAllNotesRequestHandler) Handle(request GetAllNotesRequest) ([]Note, error) {
 
-	result := []GetAllNotesResult{
+	result := []Note{
 		{
 			ID:        uuid.New(),
 			Name:      "sample name",

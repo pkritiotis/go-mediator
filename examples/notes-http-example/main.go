@@ -4,10 +4,10 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/pkritiotis/go-mediator/examples/notes-http-example/infra"
+	infra "github.com/pkritiotis/go-mediator/examples/notes-http-example/infra/http"
 )
 
 func main() {
-	infra.InitHttpServer()
+	infra.InitServer()
 	log.Fatal(http.ListenAndServe(":8080", nil))
 }
