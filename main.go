@@ -10,11 +10,12 @@ import (
 func main() {
 	//Register the handler that will server `TRequest` requests
 	mediator.Register[Request, Result](SampleHandler{})
-	mediator.Send[Request, Result](Request{})
+	mediator.Send[Request, Result](Request{value: "Hello World"})
 }
 
 // Request represents a typical request object
 type Request struct {
+	value string
 }
 
 // Result represents a typical result object
@@ -27,6 +28,6 @@ type SampleHandler struct {
 
 // Handle servers Request and returns a Result
 func (s SampleHandler) Handle(request Request) (Result, error) {
-	fmt.Println("Hello World")
+	fmt.Println(request.value)
 	return Result{}, nil
 }
